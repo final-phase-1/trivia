@@ -51,6 +51,7 @@ module.exports = (sequelize, DataTypes) => {
             console.log(err)
           }
           else user.password = hash
+          
         });
       }
     }

@@ -1,23 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <title>Quiz</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <title>Quiz</title>
 </head>
+
 <body>
-    <%- include("./partials/navbar.ejs"); %>
-    <main>
-        <table class="sTable">
-            <tr>
-                <th>Topic</th>
-                <th>Highest Score</th>
-                <th>Name</th> 
-            </tr>
-        </table>
-    </main>
+  <%- include("./partials/navbar.ejs"); %>
+  <main>
+    <form action="/quiz/<%= qid %>" method="POST">
+      <% data.forEach((question,i)=>{ %>
+      <div class="left-align">
+        <%= `${i+1}. ${question.content}` %>
+        <br>
+        <% while(question.Answers.length){ %>
+          <% let index = Math.floor(Math.random()*question.Answers.length) %>
+        <input type="radio" name="<%= question.id %>" value="<%= question.Answers[index].content %>"><%= ` ${question.Answers[index].content}` %><br>
+          <% question.Answers.splice(index,1) %>
+        <%}%>
+      </div>
+      <br>
+      <%})%>
+      <button name="submit" type="submit" id="contact-submit">Done</button>
+    </form>
+  </main>
 </body>
+
 </html>

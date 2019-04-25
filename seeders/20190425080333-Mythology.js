@@ -26,7 +26,7 @@ module.exports = {
         let question = json.map((obj, i) => {
           return {
             content: obj.question,
-            TopicId: 2,
+            TopicId: 5,
             createdAt: new Date,
             updatedAt: new Date
           }

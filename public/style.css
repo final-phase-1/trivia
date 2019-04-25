@@ -90,3 +90,6 @@ main {
     left: 0;
     font-size: 0.9em
 }
+.left-align{
+  text-align: left
+}
