@@ -3,6 +3,7 @@ const app = express()
 const path = require("path")
 const PORT = 3000
 
+const bcrypt = require("bcrypt")
 const session = require('express-session')
 
 const Model = require("./models")
@@ -23,8 +24,38 @@ app.get("/login", (req, res) => {
 })
 
 app.post("/login", (req, res) => {
+
     let info = req.body
-    res.redirect("/")
+
+    Model.User.findOne({
+        where: {
+            email: info.email
+        }
+    })
+    .then(user => {
+        if(!user) {
+            res.render("print_msg.ejs", {
+                msg: "Email not registered"
+            })
+            return
+        }
+        console.log(`
+            email: ${info.email}
+            password: ${info.password}
+            user.password: ${user.password}
+            user: ${user}
+        `)
+        if(bcrypt.compareSync(info.password, user.password)) {
+            res.render("print_msg.ejs", {
+                msg: "Login Success"
+            })
+        }
+        else {
+            res.render("print_msg.ejs", {
+                msg: "Login Failed"
+            })
+        }
+    })
 })
 
 app.get("/register", (req, res) => {
@@ -32,9 +63,23 @@ app.get("/register", (req, res) => {
 })
 
 app.post("/register", (req, res) => {
+
     let info = req.body
-    res.send(info)
-    res.redirect("/")
+
+    Model.User.create({
+        name: info.name,
+        email: info.email,
+        password: info.password,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    })
+    .then(() => {
+        res.render("print_msg.ejs", {
+            msg: "Successfully registered"
+        })
+    })
+    .catch(err => {res.send(err)})
+
 })
 
 app.get("/topics", (req, res) => {
@@ -43,7 +88,7 @@ app.get("/topics", (req, res) => {
 
 app.post("/topics/:topic", (req, res) => {
     let topic = req.params.topic
-    Topic.findOne()
+    Model.Topic.findOne()
     res.render("topics.ejs")
 })
 

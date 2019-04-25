@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Validation error: email format is incorrect"
         },
         isUnique(value) {
-          return Teacher.findOne({
+          return User.findOne({
             where : {
               name: value
             }
@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         isUnique(value) {
-          return Teacher.findOne({
+          return User.findOne({
             where : {
               name: value
             }
@@ -44,14 +44,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     hooks: {
-      beforeCreate:(user)=>{
-        bcrypt.hash(user.password, "boleh", function(err, hash) {
-          // Store hash in your password DB.
-          if(err){
-            console.log(err)
-          }
-          else user.password = hash
-        });
+      afterValidate:(user) => {
+        let salt = bcrypt.genSaltSync(9);
+        user.password = bcrypt.hashSync(user.password, salt) 
       }
     }
   });
