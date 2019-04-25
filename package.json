@@ -1,0 +1,28 @@
+{
+  "name": "trivia",
+  "version": "1.0.0",
+  "description": "Final Project of Phase 1 in Hacktiv8 Indonesia",
+  "main": "index.js",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "node-fetch": "^2.3.0",
+    "pg": "^7.10.0",
+    "sequelize": "^5.7.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/final-phase-1/trivia.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/final-phase-1/trivia/issues"
+  },
+  "homepage": "https://github.com/final-phase-1/trivia#readme"
+}
