@@ -2,13 +2,13 @@
     margin: 0;
     padding: 0;
     font-family: 'Open Sans', sans-serif;
-    font-size: 1  rem;
+    font-size: 1rem;
     background-color: #efefef;
     text-align: center;
 }
 ul {
     list-style-type: none;
-    padding: 0 10% 0 8%;
+    padding: 0 9% 0 8%;
     overflow: hidden;
     background-color: #333333;
     text-align: center;
