@@ -2,13 +2,14 @@
     margin: 0;
     padding: 0;
     font-family: 'Open Sans', sans-serif;
-    font-size: 1  rem;
+    font-size: 1rem;
     background-color: #efefef;
     text-align: center;
+    line-height: 1.2;
 }
 ul {
     list-style-type: none;
-    padding: 0 10% 0 8%;
+    padding: 0 9% 0 8%;
     overflow: hidden;
     background-color: #333333;
     text-align: center;
@@ -49,6 +50,8 @@ li a:hover {
 }
 .topic {
     font-size: 1.5em;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0);
     margin: 15px;
     padding: 15px;
 }
@@ -73,6 +76,14 @@ th, td {
     border-radius: 7px;
     padding: 5px 15px;
 }
+.redButton {
+    text-decoration: none;
+    font-size: 1em;
+    color: white;
+    background-color: #942525;
+    border-radius: 7px;
+    padding: 5px 15px;
+}
 main {
     margin: 12px 30px;
     padding-left: 22%;
@@ -90,6 +101,20 @@ main {
     left: 0;
     font-size: 0.9em
 }
+<<<<<<< HEAD
 .left-align{
   text-align: left
+=======
+.left-align {
+    text-align: left;
+    font-size: 1.2em;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 1.4;
+}
+.inputfield {
+    padding: 2px 5px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+>>>>>>> 66ce95e7ce4db4015cd3b85a2f1ac5806c8e6efb
 }

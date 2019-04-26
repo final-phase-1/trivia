@@ -6,18 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="/style.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <title>Topics</title>
+    <title>Alert</title>
 </head>
 <body>
     <%- include("./partials/navbar.ejs", {loggedin: loggedin, email: email}); %>
     <main>
-      <% topics.forEach((obj,i)=>{ %>
-        <div class="container">
-            <a class="topic" href="/quiz/<%=obj.id%>"><%= obj.name %></a>
+        <br>
+        <div style="font-size: 1.6em">
+            <%- msg %>
         </div>
-
-      <%})%>
-        
     </main>
 </body>
 </html>

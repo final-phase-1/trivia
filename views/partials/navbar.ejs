@@ -4,8 +4,21 @@
         <li><a class="nav-link" href="/topics">Topics</a></li>
         <li><a class="nav-link" href="/leaderboard">Leaderboard</a></li>
         <li><a class="nav-link" href="/account">Account</a></li>
-        <div class="topnav-right">
-            <li><a class="nav-link" href="/login">Log In</a></li>
-        </div>
+
+        <% if (loggedin) { %>
+            <div class="topnav-right">
+                <li><a class="nav-link" href="/account">Welcome, <span style="color: #ebb44e; background-color: rgba(255, 255, 255, 0)"><%- email %></span> </a></li>
+            </div>
+            <div class="topnav-right">
+                <li><a class="nav-link" href="/logout">Log Out</a></li>
+            </div>
+        <% } else { %>
+            <div class="topnav-right">
+                <li><a class="nav-link" href="/register">Register</a></li>
+            </div>
+            <div class="topnav-right">
+                <li><a class="nav-link" href="/login">Log In</a></li>
+            </div>
+        <% } %>
     </ul>
 </div>

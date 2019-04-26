@@ -9,7 +9,7 @@
     <title>Play Trivia Games</title>
 </head>
 <body>
-    <%- include("./partials/navbar.ejs"); %>
+    <%- include("./partials/navbar.ejs", {loggedin: loggedin, email: email}); %>
     <main>
         <div class="trivia">
             Trivia

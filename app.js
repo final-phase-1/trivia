@@ -6,29 +6,129 @@ const Model = require("./models")
 const totalScore = require("./helpers/totalScore.js")
 const rateScore = require("./helpers/rateScore")
 
-// const User = require("./models").User
-// const UserTopic = require("./models").UserTopic
-// const Topic = require("./models").Topic
-// const Question = require("./models").Question
-// const Answer = require("./models").Answer
+const bcrypt = require("bcrypt")
+const session = require('express-session')
+
+const Model = require("./models")
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, "public"))) //Set static folder
 
+app.use(session({
+    secret: 'alvinmaxtrivia',
+    resave: false,
+    saveUninitialized: true,
+}))
+
 app.get("/", (req, res) => {
-    res.render("home.ejs")
+
+    if(!req.session.loggedin) {
+        req.session.loggedin = false
+    }
+
+    console.log(`
+        ${JSON.stringify(req.session)}
+    `)
+    res.render("home.ejs", {
+        loggedin: req.session.loggedin,
+        email: req.session.email
+    })
 })
 
 app.get("/login", (req, res) => {
-    res.render("login.ejs")
+    res.render("login.ejs", {
+        loggedin: req.session.loggedin,
+        email: req.session.email
+    })
 })
 
 app.post("/login", (req, res) => {
+
     let info = req.body
-    res.redirect("/")
+
+    Model.User.findOne({
+        where: {
+            email: info.email
+        }
+    })
+    .then(user => {
+        if(!user) {
+            res.render("print_msg.ejs", {
+                msg: "Email not registered",
+                loggedin: req.session.loggedin,
+                email: req.session.email
+            })
+            return
+        }
+        console.log(`
+            email: ${info.email}
+            password: ${info.password}
+            user.password: ${user.password}
+            user: ${user}
+        `)
+        if(bcrypt.compareSync(info.password, user.password)) {
+
+
+            req.session.email = info.email;
+            req.session.password = info.password;
+            req.session.loggedin = true;
+
+            console.log(`
+            ${JSON.stringify(req.session)}
+            `)
+
+            res.render("print_msg.ejs", {
+                msg: "Login Success",
+                loggedin: req.session.loggedin,
+                email: req.session.email
+            })
+        }
+        else {
+            res.render("print_msg.ejs", {
+                msg: "Login Failed",
+                loggedin: req.session.loggedin,
+                email: req.session.email
+            })
+        }
+    })
+})
+
+app.get("/logout", (req, res) => {
+    req.session.destroy();
+    res.redirect("/");
+})
+
+app.get("/register", (req, res) => {
+    res.render("register.ejs", {
+        loggedin: req.session.loggedin,
+        email: req.session.email
+    })
+})
+
+app.post("/register", (req, res) => {
+
+    let info = req.body
+
+    Model.User.create({
+        name: info.name,
+        email: info.email,
+        password: info.password,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    })
+    .then(() => {
+        res.render("print_msg.ejs", {
+            msg: "Successfully registered",
+            loggedin: req.session.loggedin,
+            email: req.session.email
+        })
+    })
+    .catch(err => {res.send(err)})
+
 })
 
 app.get("/topics", (req, res) => {
+<<<<<<< HEAD
   Model.Topic.findAll()
   .then(allData=>{
     res.render("topics.ejs",{topics:allData})
@@ -70,15 +170,41 @@ app.get("/leaderboard", (req, res) => {
     res.send(err)
   })
     
+=======
+    res.render("topics.ejs", {
+        loggedin: req.session.loggedin,
+        email: req.session.email
+    })
+})
+
+app.post("/topics/:topic", (req, res) => {
+    let topic = req.params.topic
+    Model.Topic.findOne()
+    res.render("topics.ejs", {
+        loggedin: req.session.loggedin,
+        email: req.session.email
+    })
+})
+
+app.get("/leaderboard", (req, res) => {
+    res.render("leaderboard.ejs", {
+        loggedin: req.session.loggedin,
+        email: req.session.email
+    })
+>>>>>>> 66ce95e7ce4db4015cd3b85a2f1ac5806c8e6efb
 })
 
 app.get("/account", (req, res) => {
-    res.render("account.ejs")
+    res.render("account.ejs", {
+        loggedin: req.session.loggedin,
+        email: req.session.email
+    })
 })
 
 app.get("/quiz/:id", (req, res) => {
     let qid = req.params.id
     Model.Question.findAll({
+<<<<<<< HEAD
       where:{TopicId:qid},
       include: [{model: Model.Answer}]
     })
@@ -88,11 +214,27 @@ app.get("/quiz/:id", (req, res) => {
     })
     .catch(err=>{
       res.send(err)
+=======
+        where:{
+            TopicId: qid
+        },
+        include: [{model: Model.Answer}]
+    })
+    .then(data => {
+        // res.send(data)
+        res.render("quiz.ejs", {
+            data:data,
+            qid:qid,
+            loggedin: req.session.loggedin,
+            email: req.session.email
+        })
+>>>>>>> 66ce95e7ce4db4015cd3b85a2f1ac5806c8e6efb
     })
 })
 
 app.post("/quiz/:id", (req, res) => {
   let qid = req.params.id
+<<<<<<< HEAD
   let score
   totalScore(req.body,qid)
   .then(scored=>{
@@ -104,13 +246,26 @@ app.post("/quiz/:id", (req, res) => {
       UserId:found.id,
       TopicId:qid,
       score:scored,
+=======
+  totalScore(req.body,qid)
+  .then(score=>{
+    return Model.UserTopic.create({
+      UserId:2,
+      TopicId:qid,
+      score:score,
+>>>>>>> 66ce95e7ce4db4015cd3b85a2f1ac5806c8e6efb
       createdAt:new Date,
       updatedAt:new Date,
     })
   })
+<<<<<<< HEAD
   .then(()=>{
     console.log("LALNCUABUCBUIZBBBZIBCZICBZIU")
     res.redirect("/leaderboard?result="+score)
+=======
+  .then(data=>{
+    res.redirect("/quiz?result=" + score)
+>>>>>>> 66ce95e7ce4db4015cd3b85a2f1ac5806c8e6efb
   })
   .catch(err=>{
     res.send(err)
@@ -118,5 +273,84 @@ app.post("/quiz/:id", (req, res) => {
   // res.send(req.body,req.params.id)
   
 })
+
+app.post("/cname", (req, res) => {
+    Model.User.update({name: req.body.newname}, {
+        where: {
+            email: req.session.email
+        }
+    })
+    .then(() => {
+        res.render("print_msg.ejs", {
+            msg: `Successfully Updated Name for: ${req.session.email}`,
+            loggedin: req.session.loggedin,
+            email: req.session.email
+        })
+    })
+    .catch(err=>{
+        res.send(err)
+    })
+
+})
+
+app.post("/cpassword", (req, res) => {
+    Model.User.findOne({
+        where: {
+            email: req.session.email
+        }
+    })
+    .then(user => {
+        if(bcrypt.compareSync(req.body.oldpassword, user.password)) {
+            req.session.loggedin = true;
+
+            let newpass = {
+                password: req.body.newpassword
+            }
+
+            Model.User.update(newpass, {
+                where: {
+                    email: req.session.email
+                }
+            })
+            .then(() => {
+                res.render("print_msg.ejs", {
+                    msg: `Successfully Changed Password for: ${req.session.email}`,
+                    loggedin: req.session.loggedin,
+                    email: req.session.email
+                })
+            })
+            .catch(err=>{
+                res.send(err)
+            })
+        
+        }
+        else {
+            res.render("print_msg.ejs", {
+                msg: "Old password is incorrect",
+                loggedin: req.session.loggedin,
+                email: req.session.email
+            })
+        }
+    })  
+})
+
+app.post("/delete", (req, res) => {
+    Model.User.destroy({
+        where: {
+            email: req.session.email.toString()
+        }
+    })
+    .then(() => {
+        req.session.destroy();
+        res.render("print_msg.ejs", {
+            msg: "Account destroyed",
+            loggedin: false,
+            email: null
+        })
+    })
+    .catch(err=>{
+        res.send(err)
+    })
+})  
 
 app.listen(PORT, () => console.log(`Server started on port: ${PORT}`))
