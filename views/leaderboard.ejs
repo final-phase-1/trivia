@@ -11,37 +11,18 @@
 <body>
     <%- include("./partials/navbar.ejs"); %>
     <main>
+      <% if(result) %>
+      <%= `You Scored : ${result}` %>
+      <br>
+      <% if(rating) %>
+      <%= rating %>
         <table class="sTable">
             <tr>
                 <th>Topic</th>
                 <th>Highest Score</th>
                 <th>Name</th> 
             </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+            <% leader.forEach(score)
             <tr>
                 <td></td>
                 <td></td>

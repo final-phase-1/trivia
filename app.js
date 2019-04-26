@@ -4,6 +4,7 @@ const path = require("path")
 const PORT = 3001
 const Model = require("./models")
 const totalScore = require("./helpers/totalScore.js")
+const rateScore = require("./helpers/rateScore")
 
 // const User = require("./models").User
 // const UserTopic = require("./models").UserTopic
@@ -28,17 +29,47 @@ app.post("/login", (req, res) => {
 })
 
 app.get("/topics", (req, res) => {
-    res.render("topics.ejs")
+  Model.Topic.findAll()
+  .then(allData=>{
+    res.render("topics.ejs",{topics:allData})
+  })
+  .catch(err=>{
+    res.send(err)
+  })
 })
 
-app.post("/topics/:topic", (req, res) => {
-    let topic = req.params.topic
-    Topic.findOne()
-    res.render("topics.ejs")
-})
+// app.post("/topics/:topic", (req, res) => {
+//   let topic = req.params.topic
+//   res.render("topics.ejs")
+// })
 
 app.get("/leaderboard", (req, res) => {
-    res.render("leaderboard.ejs")
+  Model.UserTopic.findAll({
+    group: ['score'],
+    include:[
+      {model:Model.User},
+      {model:Model.Topic}
+    ],
+    // attributes: ['User.name','Topic.name','UserTopic.score'],
+    
+  // order: ["TopicId"]
+  })
+  .then(allData=>{
+    console.log(allData)
+    let obj = {}
+    if(req.query.result){
+      obj = {
+        leader: allData,
+        rating: rateScore(req.query.result),
+        result: req.query.result
+      }
+    }
+    res.render("leaderboard.ejs",obj)
+  })
+  .catch(err=>{
+    res.send(err)
+  })
+    
 })
 
 app.get("/account", (req, res) => {
@@ -55,22 +86,31 @@ app.get("/quiz/:id", (req, res) => {
       // res.send(data)
       res.render("quiz.ejs",{data:data,qid:qid})
     })
+    .catch(err=>{
+      res.send(err)
+    })
 })
 
 app.post("/quiz/:id", (req, res) => {
   let qid = req.params.id
+  let score
   totalScore(req.body,qid)
-  .then(score=>{
+  .then(scored=>{
+    score = scored
+    return Model.User.findOne({where:{email:req.session.email}})
+  })
+  .then(found=>{
     return Model.UserTopic.create({
-      UserId:2,
+      UserId:found.id,
       TopicId:qid,
-      score:score,
+      score:scored,
       createdAt:new Date,
       updatedAt:new Date,
     })
   })
-  .then(data=>{
-    res.redirect("/quiz?result="+score)
+  .then(()=>{
+    console.log("LALNCUABUCBUIZBBBZIBCZICBZIU")
+    res.redirect("/leaderboard?result="+score)
   })
   .catch(err=>{
     res.send(err)

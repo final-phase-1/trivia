@@ -11,24 +11,13 @@
 <body>
     <%- include("./partials/navbar.ejs"); %>
     <main>
+      <% topics.forEach((obj,i)=>{ %>
         <div class="container">
-            <a class="topic" href="/quiz/1">Computer Science</a>
+            <a class="topic" href="/quiz/<%=obj.id%>"><%= obj.name %></a>
         </div>
-        <div class="container">
-            <a class="topic" href="/quiz/2">History</a>
-        </div>
-        <div class="container">
-            <a class="topic" href="/quiz/3">General Knowledge</a>
-        </div>
-        <div class="container">
-            <a class="topic" href="/quiz/4">Video Games</a>
-        </div>
-        <div class="container">
-            <a class="topic" href="/quiz/5">Mythology</a>
-        </div>
-        <div class="container">
-            <a class="topic" href="/quiz/6">Geography</a>
-        </div>
+
+      <%})%>
+        
     </main>
 </body>
 </html>

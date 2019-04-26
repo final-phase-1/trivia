@@ -23,7 +23,6 @@ function totalScore(reqBody,TopicId){
     console.log(err)
   })
   
-  
 }
 
 module.exports = totalScore

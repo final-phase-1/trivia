@@ -7,6 +7,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   UserTopic.associate = function(models) {
     // associations can be defined here
+    UserTopic.belongsTo(models.User)
+    UserTopic.belongsTo(models.Topic)
   };
   return UserTopic;
 };
