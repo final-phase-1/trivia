@@ -9,8 +9,6 @@ const rateScore = require("./helpers/rateScore")
 const bcrypt = require("bcrypt")
 const session = require('express-session')
 
-const Model = require("./models")
-
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, "public"))) //Set static folder
 
