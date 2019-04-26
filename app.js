@@ -128,10 +128,13 @@ app.post("/register", (req, res) => {
 })
 
 app.get("/topics", (req, res) => {
-<<<<<<< HEAD
   Model.Topic.findAll()
   .then(allData=>{
-    res.render("topics.ejs",{topics:allData})
+    res.render("topics.ejs",{
+        topics:allData,
+        loggedin: req.session.loggedin,
+        email: req.session.email
+    })
   })
   .catch(err=>{
     res.send(err)
@@ -161,7 +164,9 @@ app.get("/leaderboard", (req, res) => {
       obj = {
         leader: allData,
         rating: rateScore(req.query.result),
-        result: req.query.result
+        result: req.query.result,
+        loggedin: req.session.loggedin,
+        email: req.session.email
       }
     }
     res.render("leaderboard.ejs",obj)
@@ -170,28 +175,6 @@ app.get("/leaderboard", (req, res) => {
     res.send(err)
   })
     
-=======
-    res.render("topics.ejs", {
-        loggedin: req.session.loggedin,
-        email: req.session.email
-    })
-})
-
-app.post("/topics/:topic", (req, res) => {
-    let topic = req.params.topic
-    Model.Topic.findOne()
-    res.render("topics.ejs", {
-        loggedin: req.session.loggedin,
-        email: req.session.email
-    })
-})
-
-app.get("/leaderboard", (req, res) => {
-    res.render("leaderboard.ejs", {
-        loggedin: req.session.loggedin,
-        email: req.session.email
-    })
->>>>>>> 66ce95e7ce4db4015cd3b85a2f1ac5806c8e6efb
 })
 
 app.get("/account", (req, res) => {
@@ -204,17 +187,6 @@ app.get("/account", (req, res) => {
 app.get("/quiz/:id", (req, res) => {
     let qid = req.params.id
     Model.Question.findAll({
-<<<<<<< HEAD
-      where:{TopicId:qid},
-      include: [{model: Model.Answer}]
-    })
-    .then(data=>{
-      // res.send(data)
-      res.render("quiz.ejs",{data:data,qid:qid})
-    })
-    .catch(err=>{
-      res.send(err)
-=======
         where:{
             TopicId: qid
         },
@@ -228,13 +200,11 @@ app.get("/quiz/:id", (req, res) => {
             loggedin: req.session.loggedin,
             email: req.session.email
         })
->>>>>>> 66ce95e7ce4db4015cd3b85a2f1ac5806c8e6efb
     })
 })
 
 app.post("/quiz/:id", (req, res) => {
   let qid = req.params.id
-<<<<<<< HEAD
   let score
   totalScore(req.body,qid)
   .then(scored=>{
@@ -246,26 +216,13 @@ app.post("/quiz/:id", (req, res) => {
       UserId:found.id,
       TopicId:qid,
       score:scored,
-=======
-  totalScore(req.body,qid)
-  .then(score=>{
-    return Model.UserTopic.create({
-      UserId:2,
-      TopicId:qid,
-      score:score,
->>>>>>> 66ce95e7ce4db4015cd3b85a2f1ac5806c8e6efb
       createdAt:new Date,
       updatedAt:new Date,
     })
   })
-<<<<<<< HEAD
   .then(()=>{
-    console.log("LALNCUABUCBUIZBBBZIBCZICBZIU")
+    // console.log("LALNCUABUCBUIZBBBZIBCZICBZIU")
     res.redirect("/leaderboard?result="+score)
-=======
-  .then(data=>{
-    res.redirect("/quiz?result=" + score)
->>>>>>> 66ce95e7ce4db4015cd3b85a2f1ac5806c8e6efb
   })
   .catch(err=>{
     res.send(err)

@@ -101,10 +101,6 @@ main {
     left: 0;
     font-size: 0.9em
 }
-<<<<<<< HEAD
-.left-align{
-  text-align: left
-=======
 .left-align {
     text-align: left;
     font-size: 1.2em;
@@ -116,5 +112,4 @@ main {
     padding: 2px 5px;
     margin-bottom: 8px;
     border-radius: 5px;
->>>>>>> 66ce95e7ce4db4015cd3b85a2f1ac5806c8e6efb
 }

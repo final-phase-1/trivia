@@ -44,21 +44,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     hooks: {
-<<<<<<< HEAD
-      beforeCreate:(user)=>{
-        bcrypt.hash(user.password, "boleh", function(err, hash) {
-          // Store hash in your password DB.
-          if(err){
-            console.log(err)
-          }
-          else user.password = hash
-          
-        });
-=======
       afterValidate:(user) => {
         let salt = bcrypt.genSaltSync(9);
         user.password = bcrypt.hashSync(user.password, salt) 
->>>>>>> 66ce95e7ce4db4015cd3b85a2f1ac5806c8e6efb
       }
     }
   });
