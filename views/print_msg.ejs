@@ -9,7 +9,7 @@
     <title>Alert</title>
 </head>
 <body>
-    <%- include("./partials/navbar.ejs"); %>
+    <%- include("./partials/navbar.ejs", {loggedin: loggedin, email: email}); %>
     <main>
         <br>
         <div style="font-size: 1.6em">

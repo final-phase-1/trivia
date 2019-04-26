@@ -9,7 +9,7 @@
     <title>Login</title>
 </head>
 <body>
-    <%- include("./partials/navbar.ejs"); %>
+    <%- include("./partials/navbar.ejs", {loggedin: loggedin, email: email}); %>
     <main>
             <form class="textbox" action="/login" method="POST">
                 <br>

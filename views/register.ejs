@@ -9,7 +9,7 @@
     <title>Register</title>
 </head>
 <body>
-    <%- include("./partials/navbar.ejs"); %>
+    <%- include("./partials/navbar.ejs", {loggedin: loggedin, email: email}); %>
     <main>
             <form class="textbox" action="/register" method="POST">
                 <br>
@@ -24,7 +24,6 @@
                 <br><br>
                 <button class="grnButton" type="submit">Register</button>
             </form>
-        </form>
     </main>
 </body>
 </html>

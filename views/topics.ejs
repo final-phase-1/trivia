@@ -9,7 +9,7 @@
     <title>Topics</title>
 </head>
 <body>
-    <%- include("./partials/navbar.ejs"); %>
+    <%- include("./partials/navbar.ejs", {loggedin: loggedin, email: email}); %>
     <main>
         <div class="container">
             <a class="topic" href="/quiz/1">Computer Science</a>

@@ -6,18 +6,36 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="/style.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <title>Document</title>
+    <title>Account</title>
 </head>
 <body>
-    <%- include("./partials/navbar.ejs"); %>
+    <%- include("./partials/navbar.ejs", {loggedin: loggedin, email: email}); %>
     <main>
-        <table class="sTable">
-            <tr>
-                <th>Topic</th>
-                <th>Highest Score</th>
-                <th>Name</th> 
-            </tr>
-        </table>
+        <% if (loggedin) { %>
+        <div style="font-size: 1.8em; margin-bottom: 18px">Hello, <%- %></div>
+        <div style="font-size: 1.25em; margin-bottom: 18px">Change Account Name:</div>
+            <form class="textbox" action="/cname" method="POST">
+                <input class="inputfield" type="text" name="newname" placeholder="Enter new name"><br>
+                <button class="grnButton" type="submit">Change Name</button>
+            </form>
+            <br>
+        <div style="font-size: 1.25em; margin-bottom: 18px">Change Account Password</div>
+            <form class="textbox" action="/cpassword" method="POST">
+                <input class="inputfield" type="password" name="oldpassword" placeholder="Enter current password"><br>
+                <input class="inputfield" type="password" name="newpassword" placeholder="Enter new password"><br>
+               
+                <button class="grnButton" type="submit">Change Password</button>
+            </form>
+            <br>
+        <div style="font-size: 1.25em; margin-bottom: 12px">Delete Account</div>
+            <form class="textbox" action="/delete" method="POST">
+                <input type = "hidden" name = "delete" value = "delete" />
+                <button class="redButton" type="submit">Delete</button>
+            </form>
+        <% } else { %>
+            <br>
+            <div style="font-size: 2em">Log in First</div>
+        <% } %>
     </main>
 </body>
 </html>
